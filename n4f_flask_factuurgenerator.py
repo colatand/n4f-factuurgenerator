@@ -374,7 +374,7 @@ def generate_pdf() -> Response:
     iban = request.form.get("iban", "").strip()
     kvk = request.form.get("kvk", "").strip()
     btw = request.form.get("btw", "").strip()
-    business_address = request.form.get("businessAddress", "").strip()
+    business_address = "P van der Meerschstraat 24\n1689XP Zwaag\nNederland"
     client_name = request.form.get("clientName", "").strip()
     client_address = request.form.get("clientAddress", "").strip()
     invoice_number = request.form.get("invoiceNumber", next_invoice_number()).strip()
