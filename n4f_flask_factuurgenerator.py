@@ -12,7 +12,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader, simpleSplit
+from reportlab.lib.utils import ImageReader
 import qrcode
 
 app = Flask(__name__)
@@ -213,7 +213,7 @@ HTML_TEMPLATE = """
           <div class="field"><label>Factuurdatum</label><input name="invoiceDate" type="date" value="{{ today }}" required /></div>
         </div>
         <div class="grid">
-          <div class="field"><label>Betaaltermijn (dagen)</label><input name="paymentDays" type="number" value="7" /></div>
+          <div class="field"><label>Betaaltermijn (dagen)</label><input name="paymentDays" type="number" value="14" /></div>
           <div class="field"><label>BTW</label>
             <select name="vatRate">
               <option value="0">0%</option>
@@ -342,7 +342,7 @@ def make_qr_image(payload: str) -> BytesIO:
 def draw_multiline(c: canvas.Canvas, text: str, x: float, y: float, max_width: float, font_name: str, font_size: int, color: Any, leading: float) -> float:
     c.setFillColor(color)
     c.setFont(font_name, font_size)
-    lines = simpleSplit(text or "", font_name, font_size, max_width)
+    lines = pdfmetrics.simpleSplit(text or "", font_name, font_size, max_width)
     for line in lines:
         c.drawString(x, y, line)
         y -= leading
@@ -379,7 +379,7 @@ def generate_pdf() -> Response:
     client_address = request.form.get("clientAddress", "").strip()
     invoice_number = request.form.get("invoiceNumber", next_invoice_number()).strip()
     invoice_date = request.form.get("invoiceDate", today_iso()).strip()
-    payment_days = safe_int(request.form.get("paymentDays", "7"), 7)
+    payment_days = safe_int(request.form.get("paymentDays", "14"), 7)
     vat_rate = safe_int(request.form.get("vatRate", "0"), 0)
     description = request.form.get("description", "Online coaching Nutrition4Fitness").strip()
     quantity = safe_int(request.form.get("quantity", "1"), 1)
@@ -485,7 +485,7 @@ def generate_pdf() -> Response:
 
     c.setFillColor(CREAM)
     c.setFont("Helvetica", 10)
-    desc_lines = simpleSplit(description, "Helvetica", 10, 72 * mm)
+    desc_lines = pdfmetrics.simpleSplit(description, "Helvetica", 10, 72 * mm)
     yy = y
     for line in desc_lines:
         c.drawString(cols[0], yy, line)
@@ -524,7 +524,9 @@ def generate_pdf() -> Response:
     payment_text = (
         "Open eerst je bankapp en gebruik daar de QR-scanner om te betalen. "
         "Met een gewone QR-scanner werkt de betaalfunctie meestal niet. "
-        "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld."
+        "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld.\n\n"
+        "Indien je geen gebruik wilt maken van de QR-code, kan het bedrag ook per overschrijving "
+        "worden betaald naar het bovenstaande rekeningnummer met het factuurnummer als omschrijving."
     )
     y = draw_multiline(c, payment_text, left, y, 92 * mm, "Helvetica", 9, MUTED, 5 * mm)
     c.drawString(left, y - 2 * mm, f"Betaaltermijn: {payment_days} dagen")
