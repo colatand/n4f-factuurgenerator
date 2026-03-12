@@ -485,7 +485,7 @@ def generate_pdf() -> Response:
 
     c.setFillColor(CREAM)
     c.setFont("Helvetica", 10)
-   desc_lines = simpleSplit(description, "Helvetica", 10, 72 * mm)
+    desc_lines = simpleSplit(description, "Helvetica", 10, 72 * mm)
     yy = y
     for line in desc_lines:
         c.drawString(cols[0], yy, line)
