@@ -248,7 +248,7 @@ HTML_TEMPLATE = """
           <div class="field"><label>Aantal</label><input name="quantity" type="number" step="1" value="1" /></div>
           <div class="field"><label>Prijs excl. btw (€)</label><input name="unitPrice" id="unitPrice" type="number" step="0.01" value="75.00" /></div>
         </div>
-        <div class="field"><label>Betaalomschrijving QR</label><input name="paymentReference" value="Begeleiding Nutrition4Fitness" /></div>
+        <div class="field"><label>Betaalomschrijving QR</label><input name="paymentReference" value="" placeholder="Optioneel: eigen betaalomschrijving" /></div>
         <div class="field"><label>Extra notitie</label><textarea name="notes">Bedankt voor het vertrouwen in Nutrition4Fitness.</textarea></div>
 
         <div class="btns">
