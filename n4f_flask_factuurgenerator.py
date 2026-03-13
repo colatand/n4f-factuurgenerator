@@ -465,7 +465,7 @@ def generate_pdf() -> Response:
     vat_amount = (subtotal * Decimal(vat_rate) / Decimal(100)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
     total = subtotal + vat_amount
 
-    remittance = f"Factuur {invoice_number} {payment_reference or description}".strip()
+    remittance = f"N4F Factuur {invoice_number} {payment_reference or description}".strip()
     epc_payload = build_epc_payload(account_name or business_name, iban, total, remittance)
     qr_buffer = make_qr_image(epc_payload)
 
