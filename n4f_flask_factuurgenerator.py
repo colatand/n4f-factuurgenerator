@@ -616,7 +616,8 @@ def generate_pdf() -> Response:
 
     # betaaltekst rechts onder
     text_x = total_x
-    text_y = qr_y + 60 * mm
+    text_w = right - total_x
+    text_y = y
 
     c.setFillColor(CHAMPAGNE)
     c.setFont("Helvetica-Bold", 10)
@@ -625,21 +626,27 @@ def generate_pdf() -> Response:
     text_y -= 7 * mm
 
     payment_text = (
-    "Open eerst je bankapp en gebruik daar de QR-scanner om te betalen. "
-    "Met een gewone QR-scanner werkt de betaalfunctie meestal niet. "
-    "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld. "
-    "Indien u geen gebruik maakt van de QR-code dan kunt u het openstaande bedrag "
-    "ook handmatig overmaken per bank aan bovenstaand rekeninghouder en rekeningnummer "
-    "met het factuurnummer als omschrijving."
+        "Open eerst je bankapp en gebruik daar de QR-scanner om te betalen. "
+        "Met een gewone QR-scanner werkt de betaalfunctie meestal niet. "
+        "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld. "
+        "Indien u geen gebruik maakt van de QR-code, dan kunt u het openstaande bedrag "
+        "ook handmatig overmaken per bank aan bovenstaand rekeningnummer met het "
+        "factuurnummer als omschrijving."
     )
 
-    text_y = draw_multiline(c, payment_text, text_x, text_y, 95 * mm, "Helvetica", 9, MUTED, 5 * mm)    
+    text_y = draw_multiline(
+        c,
+        payment_text,
+        text_x,
+        text_y,
+        text_w,
+        "Helvetica",
+        9,
+        MUTED,
+        5 * mm
+    )
 
-    y = min(y - 16 * mm, qr_y - 38 * mm)
-    c.setStrokeColor(CHAMPAGNE)
-    c.line(left, y, right, y)
-    y -= 8 * mm
-    draw_multiline(c, notes, left, y, right - left, "Helvetica", 9, MUTED, 5 * mm)
+    c.drawString(text_x, text_y - 2 * mm, f"Betaaltermijn: {payment_days} dagen")
 
     c.showPage()
     c.save()
