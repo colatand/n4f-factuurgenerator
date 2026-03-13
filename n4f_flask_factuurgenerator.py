@@ -603,7 +603,7 @@ def generate_pdf() -> Response:
     "Indien u geen gebruik maakt van de QR-code, dan kunt u het openstaande bedrag "
     "ook handmatig overmaken per bank aan bovenstaand rekeningnummer met het "
     "factuurnummer als omschrijving."
-)
+
     )
     y = draw_multiline(c, payment_text, left, y, 92 * mm, "Helvetica", 9, MUTED, 5 * mm)
     c.drawString(left, y - 2 * mm, f"Betaaltermijn: {payment_days} dagen")
