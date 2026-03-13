@@ -12,7 +12,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader
+from reportlab.lib.utils import ImageReader, simpleSplit
 import qrcode
 
 app = Flask(__name__)
@@ -416,7 +416,7 @@ def make_qr_image(payload: str) -> BytesIO:
 def draw_multiline(c: canvas.Canvas, text: str, x: float, y: float, max_width: float, font_name: str, font_size: int, color: Any, leading: float) -> float:
     c.setFillColor(color)
     c.setFont(font_name, font_size)
-    lines = pdfmetrics.simpleSplit(text or "", font_name, font_size, max_width)
+    lines = simpleSplit(text or "", font_name, font_size, max_width)
     for line in lines:
         c.drawString(x, y, line)
         y -= leading
@@ -560,7 +560,7 @@ def generate_pdf() -> Response:
 
     c.setFillColor(CREAM)
     c.setFont("Helvetica", 10)
-    desc_lines = pdfmetrics.simpleSplit(description, "Helvetica", 10, 72 * mm)
+    desc_lines = simpleSplit(description, "Helvetica", 10, 72 * mm)
     yy = y
     for line in desc_lines:
         c.drawString(cols[0], yy, line)
