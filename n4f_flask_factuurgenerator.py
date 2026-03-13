@@ -633,19 +633,7 @@ def generate_pdf() -> Response:
     "met het factuurnummer als omschrijving."
     )
 
-    text_y = draw_multiline(c, payment_text, text_x, text_y, 95 * mm, "Helvetica", 9, MUTED, 5 * mm)
-
-    c.drawString(text_x, text_y - 2 * mm, f"Betaaltermijn: {payment_days} dagen")
-    c.setFillColor(WHITE)
-    c.setStrokeColor(CHAMPAGNE)
-    c.roundRect(qr_x, qr_y - 32 * mm, 58 * mm, 62 * mm, 4 * mm, stroke=1, fill=1)
-    qr_image = ImageReader(qr_buffer)
-    c.drawImage(qr_image, qr_x + 9 * mm, qr_y - 14 * mm, width=40 * mm, height=40 * mm, mask='auto')
-    c.setFillColor(BLACK)
-    c.setFont("Helvetica-Bold", 10)
-    c.drawCentredString(qr_x + 29 * mm, qr_y - 18 * mm, "Scan & betaal")
-    c.setFont("Helvetica", 8)
-    c.drawCentredString(qr_x + 29 * mm, qr_y - 25 * mm, f"Bedrag: {euro_str(total)}")
+    text_y = draw_multiline(c, payment_text, text_x, text_y, 95 * mm, "Helvetica", 9, MUTED, 5 * mm)    
 
     y = min(y - 16 * mm, qr_y - 38 * mm)
     c.setStrokeColor(CHAMPAGNE)
