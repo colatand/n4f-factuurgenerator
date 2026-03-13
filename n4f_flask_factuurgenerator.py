@@ -196,8 +196,7 @@ HTML_TEMPLATE = """
 
       <form method="post" action="/generate-pdf">
         <h2>Jouw gegevens</h2>
-        <div class="field"><label>Bedrijfsnaam</label><input name="businessName" value="Nutrition4Fitness" required /></div>
-        <div class="field"><label>Rekeninghouder</label><input name="accountName" value="Christiaan Cornet" required /></div>
+        <div class="field"><label>Bedrijfsnaam</label><input name="businessName" value="Nutrition4Fitness" required /></div>        
         <div class="field"><label>IBAN</label><input name="iban" value="ES25 0073 0100 5508 2170 8106" required /></div>
         <div class="grid">
           <div class="field"><label>KvK</label><input name="kvk" value="89592972" /></div>
@@ -505,8 +504,7 @@ def generate_pdf() -> Response:
         f"KvK: {kvk}",
         f"BTW-ID: {btw}",
         f"IBAN: {iban}",
-        "Email: chriscornet.personaltrainer@gmail.com",
-        f"Rekeninghouder: {account_name or business_name}",
+        "Email: chriscornet.personaltrainer@gmail.com",        
     ]:
         c.drawString(left, y_left, line)
         y_left -= 6 * mm
@@ -597,9 +595,13 @@ def generate_pdf() -> Response:
     c.drawString(left, y, "BETALEN")
     y -= 7 * mm
     payment_text = (
-        "Open eerst je bankapp en gebruik daar de QR-scanner om te betalen. "
-        "Met een gewone QR-scanner werkt de betaalfunctie meestal niet. "
-        "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld."
+    "Open eerst je bankapp en gebruik daar de QR-scanner om te betalen. "
+    "Met een gewone QR-scanner werkt de betaalfunctie meestal niet. "
+    "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld. "
+    "Indien u geen gebruik maakt van de QR-code, dan kunt u het openstaande bedrag "
+    "ook handmatig overmaken per bank aan bovenstaand rekeningnummer met het "
+    "factuurnummer als omschrijving."
+)
     )
     y = draw_multiline(c, payment_text, left, y, 92 * mm, "Helvetica", 9, MUTED, 5 * mm)
     c.drawString(left, y - 2 * mm, f"Betaaltermijn: {payment_days} dagen")
