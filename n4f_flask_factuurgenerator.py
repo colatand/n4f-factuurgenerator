@@ -591,25 +591,51 @@ def generate_pdf() -> Response:
     c.drawRightString(right, y, euro_str(total))
     y -= 14 * mm
 
-    # betalen + QR
+    # betalen + QR (vast onderaan pagina)
+
+    bottom_margin = 18 * mm
+
+    # QR links onder
+    qr_x = left
+    qr_y = bottom_margin
+
+    c.setFillColor(WHITE)
+    c.setStrokeColor(CHAMPAGNE)
+    c.roundRect(qr_x, qr_y, 58 * mm, 62 * mm, 4 * mm, stroke=1, fill=1)
+
+    qr_image = ImageReader(qr_buffer)
+    c.drawImage(qr_image, qr_x + 9 * mm, qr_y + 16 * mm, width=40 * mm, height=40 * mm, mask='auto')
+
+    c.setFillColor(BLACK)
+    c.setFont("Helvetica-Bold", 10)
+    c.drawCentredString(qr_x + 29 * mm, qr_y + 12 * mm, "Scan & betaal")
+
+    c.setFont("Helvetica", 8)
+    c.drawCentredString(qr_x + 29 * mm, qr_y + 6 * mm, f"Bedrag: {euro_str(total)}")
+
+
+    # betaaltekst rechts onder
+    text_x = 90 * mm
+    text_y = qr_y + 60 * mm
+
     c.setFillColor(CHAMPAGNE)
     c.setFont("Helvetica-Bold", 10)
-    c.drawString(left, y, "BETALEN")
-    y -= 7 * mm
+    c.drawString(text_x, text_y, "BETALEN")
+
+    text_y -= 7 * mm
+
     payment_text = (
     "Open eerst je bankapp en gebruik daar de QR-scanner om te betalen. "
     "Met een gewone QR-scanner werkt de betaalfunctie meestal niet. "
     "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld. "
-    "Indien u geen gebruik maakt van de QR-code, dan kunt u het openstaande bedrag "
-    "ook handmatig overmaken per bank aan bovenstaand rekeningnummer met het "
-    "factuurnummer als omschrijving."
-
+    "Indien u geen gebruik maakt van de QR-code dan kunt u het openstaande bedrag "
+    "ook handmatig overmaken per bank aan bovenstaand rekeninghouder en rekeningnummer "
+    "met het factuurnummer als omschrijving."
     )
-    y = draw_multiline(c, payment_text, left, y, 92 * mm, "Helvetica", 9, MUTED, 5 * mm)
-    c.drawString(left, y - 2 * mm, f"Betaaltermijn: {payment_days} dagen")
 
-    qr_x = 138 * mm
-    qr_y = y + 4 * mm
+    text_y = draw_multiline(c, payment_text, text_x, text_y, 95 * mm, "Helvetica", 9, MUTED, 5 * mm)
+
+    c.drawString(text_x, text_y - 2 * mm, f"Betaaltermijn: {payment_days} dagen")
     c.setFillColor(WHITE)
     c.setStrokeColor(CHAMPAGNE)
     c.roundRect(qr_x, qr_y - 32 * mm, 58 * mm, 62 * mm, 4 * mm, stroke=1, fill=1)
