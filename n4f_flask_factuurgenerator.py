@@ -268,7 +268,7 @@ HTML_TEMPLATE = """
       </div>
       <div class="invoice-head">
         <div>
-          <div class="business">P van der Meerschstraat 24<br>1689XP Zwaag<br>Nederland<br>KvK: 89592972<br>BTW-ID: NL004375229B65<br>IBAN: ES25 0073 0100 5508 2170 8106<br>Email: chriscornet.personaltrainer@gmail.com</div>
+          <div class="business">P van der Meerschstraat 24<br>1689XP Zwaag<br>Nederland<br>KvK: 89592972<br>BTW-ID: NL004375229B65<br>IBAN: ES25 0073 0100 5508 2170 8106<br>Email: chriscornet.personaltrainer@gmail.com<br>Rekeninghouder: Christiaan Cornet</div>
         </div>
         <div class="meta">
           <div class="section-title">Factuur</div>
@@ -630,8 +630,8 @@ def generate_pdf() -> Response:
         "Met een gewone QR-scanner werkt de betaalfunctie meestal niet. "
         "Bedrag, IBAN en omschrijving worden daarna automatisch ingevuld. "
         "Indien u geen gebruik maakt van de QR-code, dan kunt u het openstaande bedrag "
-        "ook handmatig overmaken per bank aan bovenstaand rekeningnummer met het "
-        "factuurnummer als omschrijving."
+        "ook handmatig overmaken per bank aan bovenstaand rekeningnummer ten name van "
+        "Christiaan Cornet met het factuurnummer als omschrijving "        
     )
 
     text_y = draw_multiline(
