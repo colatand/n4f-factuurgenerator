@@ -615,7 +615,7 @@ def generate_pdf() -> Response:
 
 
     # betaaltekst rechts onder
-    text_x = 90 * mm
+    text_x = total_x
     text_y = qr_y + 60 * mm
 
     c.setFillColor(CHAMPAGNE)
