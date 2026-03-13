@@ -506,7 +506,7 @@ def generate_pdf() -> Response:
         f"BTW-ID: {btw}",
         f"IBAN: {iban}",
         "Email: chriscornet.personaltrainer@gmail.com",
-        f"Rekeninghouder: {account_name or business_name}",
+        f"Rekeninghouder: Christiaan Cornet",
     ]:
         c.drawString(left, y_left, line)
         y_left -= 6 * mm
